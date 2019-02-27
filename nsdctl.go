@@ -263,8 +263,10 @@ func NewClient(serverType string, hostString string, caFile string, keyFile stri
 
 	r, err := client.Command("status")
 	if err != nil {
-		// Drain rest of reader
-		io.Copy(ioutil.Discard, r)
+		if r != nil {
+			// Drain rest of reader
+			io.Copy(ioutil.Discard, r)
+		}
 		return nil, err
 	}
 
